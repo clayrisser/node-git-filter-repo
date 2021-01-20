@@ -46,9 +46,9 @@ def gitz_from_tz(tz: int) -> str:
   tz_minutes = int(abs(tz) / MIN % 60)
   return ('-' if tz < 0 else '+') + str(tz_hours).zfill(2) + str(tz_minutes).zfill(2)
 
-def gitdate_from_date(gitdate: (int, int)) -> str:
-  gitz = gitz_from_tz(gitdate[1])
-  return bytes(str(gitdate[0]) + ' ' + gitz, 'utf-8')
+def gitdate_from_date(date: (int, int)) -> str:
+  gitz = gitz_from_tz(date[1])
+  return bytes(str(date[0]) + ' ' + gitz, 'utf-8')
 
 def change_tz(date: (int, int), tz: str or int, adjust_time=True) -> (int, int):
   if isinstance(tz, str):
