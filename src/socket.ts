@@ -17,10 +17,10 @@
 import path from 'path';
 import { createServer, Socket as NetSocket, Server } from 'net';
 import { v4 as uuidv4 } from 'uuid';
+import os from 'os';
 import { HashMap } from '~/types';
 
-const rootPath = path.resolve(__dirname, '..');
-const tmpPath = path.resolve(rootPath, '.tmp');
+const tmpPath = os.tmpdir();
 
 export default class Socket {
   path: string;

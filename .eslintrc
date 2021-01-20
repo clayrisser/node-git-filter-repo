@@ -63,6 +63,7 @@
           "stderr",
           "stdout",
           "str",
+          "tmpdir",
           "tsx",
           "typeof",
           "umd",

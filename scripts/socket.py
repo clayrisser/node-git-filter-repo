@@ -17,6 +17,7 @@ import json
 import os
 import re
 import socket
+import tempfile
 
 def import_script(script_name):
   scripts_path = os.path.abspath(
@@ -34,18 +35,10 @@ def import_script(script_name):
 
 obj2dict = import_script('types').obj2dict
 
-root_path = os.path.realpath(
-  os.path.join(
-    os.path.dirname(os.path.realpath(__file__)),
-    '..'
-  )
-)
-tmp_path = os.path.join(root_path, '.tmp')
-
 class Socket:
   def __init__(self, name='captain_hook'):
     self.name = name
-    self.path = os.path.join(tmp_path, self.name + '.sock')
+    self.path = os.path.join(tempfile.gettempdir(), self.name + '.sock')
     self.socket = None
 
   def connect(self):
