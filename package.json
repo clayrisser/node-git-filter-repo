@@ -1,6 +1,6 @@
 {
   "name": "git-filter-repo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "node bindings to the git-filter-repo python api",
   "keywords": [
     "git",
@@ -24,7 +24,8 @@
   "files": [
     "dist",
     "es",
-    "lib"
+    "lib",
+    "scripts"
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
