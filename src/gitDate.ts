@@ -39,7 +39,7 @@ export default class GitDate {
     }
     const timezoneArr = [
       Number(`${timezoneStr[0]}1`),
-      Number(timezoneStr.substr(1, 3)),
+      Number(timezoneStr.substr(1, 2)),
       Number(timezoneStr.substr(3, 2))
     ];
     const [sign, hours, minutes] = timezoneArr;
@@ -51,7 +51,7 @@ export default class GitDate {
     const minutes = Math.floor((timezone / Time.Minute) % 60);
     return `${timezone < 0 ? '-' : '+'}${hours
       .toString()
-      .padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      .padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
   }
 
   gitDateFromDate(dateArr: DateArr): string {
