@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
+import { DateArr } from 'kiss-date';
 import { ExecaError } from 'execa';
 import Git, { GitFilterRepoOptions } from './git';
+import GitDate from './gitDate';
 import Pip from './pip';
 import Socket from './socket';
+
+const gitDate = new GitDate();
 
 export default class GitFilterRepo {
   private git: Git;
@@ -233,11 +237,11 @@ export type Reset = any;
 export type Refname = any;
 
 export interface Commit {
-  authorDate: string;
+  authorDate: DateArr;
   authorEmail: string;
   authorName: string;
   branch: string;
-  committerDate: string;
+  committerDate: DateArr;
   committerEmail: string;
   committerName: string;
   dumped: number;
@@ -250,11 +254,11 @@ export interface Commit {
 
 export function pythonCommitToCommit(pythonCommit: PythonCommit): Commit {
   return {
-    authorDate: pythonCommit.author_date,
+    authorDate: gitDate.dateFromGitDate(pythonCommit.author_date),
     authorEmail: pythonCommit.author_email,
     authorName: pythonCommit.author_name,
     branch: pythonCommit.branch,
-    committerDate: pythonCommit.committer_date,
+    committerDate: gitDate.dateFromGitDate(pythonCommit.committer_date),
     committerEmail: pythonCommit.committer_email,
     committerName: pythonCommit.committer_name,
     dumped: pythonCommit.dumped,
@@ -268,11 +272,11 @@ export function pythonCommitToCommit(pythonCommit: PythonCommit): Commit {
 
 export function commitToPythonCommit(commit: Commit): PythonCommit {
   return {
-    author_date: commit.authorDate,
+    author_date: gitDate.gitDateFromDate(commit.authorDate),
     author_email: commit.authorEmail,
     author_name: commit.authorName,
     branch: commit.branch,
-    committer_date: commit.committerDate,
+    committer_date: gitDate.gitDateFromDate(commit.committerDate),
     committer_email: commit.committerEmail,
     committer_name: commit.committerName,
     dumped: commit.dumped,
