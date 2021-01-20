@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import FilterRepo from './filterRepo';
+import GitFilterRepo from './gitFilterRepo';
 import Git from './git';
 import Pip from './pip';
 import Socket from './socket';
 
-export { FilterRepo, Git, Pip, Socket };
+export { Git, Pip, Socket };
 
-export * from './filterRepo';
+export * from './gitFilterRepo';
 export * from './git';
 export * from './pip';
 export * from './socket';
 export * from './types';
+
+export default GitFilterRepo;

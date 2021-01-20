@@ -19,7 +19,7 @@ import Git, { GitFilterRepoOptions } from './git';
 import Pip from './pip';
 import Socket from './socket';
 
-export default class FilterRepo {
+export default class GitFilterRepo {
   private git: Git;
 
   private pip: Pip;
