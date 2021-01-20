@@ -19,7 +19,7 @@ import { Timezone, Time, DateArr } from 'kiss-date';
 export default class GitDate {
   dateFromGitDate(gitDate: string): DateArr {
     const dateArr = gitDate.split(' ');
-    const gitTimezone = dateArr.length < 1 ? dateArr[1] : '+0000';
+    const gitTimezone = dateArr.length > 1 ? dateArr[1] : '+0000';
     const timezone = this.timezoneFromGitTimezone(gitTimezone);
     return [Number(dateArr[0]), timezone];
   }
