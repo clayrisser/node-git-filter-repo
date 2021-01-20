@@ -33,7 +33,10 @@ export default class FilterRepo {
     const previousPath = this.gitPath;
     process.chdir(this.gitPath);
     if (!(await this.installed())) {
-      await this.pip.install('git-filter-repo', { user: true });
+      await this.pip.install('git-filter-repo', {
+        user: true,
+        pipe: true
+      });
     }
     process.chdir(previousPath);
   }
@@ -137,6 +140,7 @@ export default class FilterRepo {
     options: Partial<GitFilterRepoOptions> = {},
     callback: (...args: any[]) => any = () => null
   ) {
+    await this.ensure();
     const socket = new Socket('captain_hook', {
       [`${name}Callback`]: callback
     });
