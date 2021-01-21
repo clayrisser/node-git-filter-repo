@@ -47,8 +47,8 @@ export default class GitDate {
   }
 
   gitTimezoneFromTimezone(timezone: Timezone): string {
-    const hours = Math.floor(timezone / Time.Hour);
-    const minutes = Math.floor((timezone / Time.Minute) % 60);
+    const hours = Math.abs(Math.floor(timezone / Time.Hour));
+    const minutes = Math.abs(Math.floor((timezone / Time.Minute) % 60));
     return `${timezone < 0 ? '-' : '+'}${hours
       .toString()
       .padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
