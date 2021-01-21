@@ -44,6 +44,8 @@ def obj2dict(obj, depth=0):
   return result
 
 def obj_merge(obj, value):
+  if value == None:
+    return obj
   type_converter = TypeConverter()
   if isinstance(value, dict):
     for key, value in value.items():

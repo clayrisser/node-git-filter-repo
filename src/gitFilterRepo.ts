@@ -59,25 +59,31 @@ export default class GitFilterRepo {
   }
 
   async blobCallback(
-    callback: (blob: Blob) => Blob,
+    callback: (blob: Blob) => Blob | Promise<Blob>,
     options: Partial<FilterBlobCallbackOptions> = {}
   ) {
-    return this.callback('blob', options, (blob: Blob) => {
+    return this.callback('blob', options, async (blob: Blob) => {
       return callback(blob);
     });
   }
 
   async commitCallback(
-    callback: (commit: Commit) => Commit,
+    callback: (commit: Commit) => Commit | Promise<Commit>,
     options: Partial<FilterCommitCallbackOptions> = {}
   ) {
-    return this.callback('commit', options, (pythonCommit: PythonCommit) => {
-      return commitToPythonCommit(callback(pythonCommitToCommit(pythonCommit)));
-    });
+    return this.callback(
+      'commit',
+      options,
+      async (pythonCommit: PythonCommit) => {
+        return commitToPythonCommit(
+          await callback(pythonCommitToCommit(pythonCommit))
+        );
+      }
+    );
   }
 
   async tagCallback(
-    callback: (tag: Tag) => Tag,
+    callback: (tag: Tag) => Tag | Promise<Tag>,
     options: Partial<FilterTagCallbackOptions> = {}
   ) {
     return this.callback('tag', options, (tag: Tag) => {
@@ -86,55 +92,55 @@ export default class GitFilterRepo {
   }
 
   async resetCallback(
-    callback: (reset: Reset) => Reset,
+    callback: (reset: Reset) => Reset | Promise<Reset>,
     options: Partial<FilterResetCallbackOptions> = {}
   ) {
-    return this.callback('reset', options, (reset: Reset) => {
+    return this.callback('reset', options, async (reset: Reset) => {
       return callback(reset);
     });
   }
 
   async filenameCallback(
-    callback: (filename: Filename) => Filename,
+    callback: (filename: Filename) => Filename | Promise<Filename>,
     options: Partial<FilterFilenameCallbackOptions> = {}
   ) {
-    return this.callback('filename', options, (filename: Filename) => {
+    return this.callback('filename', options, async (filename: Filename) => {
       return callback(filename);
     });
   }
 
   async messageCallback(
-    callback: (message: Message) => Message,
+    callback: (message: Message) => Message | Promise<Message>,
     options: Partial<FilterMessageCallbackOptions> = {}
   ) {
-    return this.callback('message', options, (message: Message) => {
+    return this.callback('message', options, async (message: Message) => {
       return callback(message);
     });
   }
 
   async nameCallback(
-    callback: (name: Name) => Name,
+    callback: (name: Name) => Name | Promise<Name>,
     options: Partial<FilterNameCallbackOptions> = {}
   ) {
-    return this.callback('name', options, (name: Name) => {
+    return this.callback('name', options, async (name: Name) => {
       return callback(name);
     });
   }
 
   async emailCallback(
-    callback: (email: Email) => Email,
+    callback: (email: Email) => Email | Promise<Email>,
     options: Partial<FilterEmailCallbackOptions> = {}
   ) {
-    return this.callback('email', options, (email: Email) => {
+    return this.callback('email', options, async (email: Email) => {
       return callback(email);
     });
   }
 
   async refnameCallback(
-    callback: (refname: Refname) => Refname,
+    callback: (refname: Refname) => Refname | Promise<Refname>,
     options: Partial<FilterRefnameCallbackOptions> = {}
   ) {
-    return this.callback('refname', options, (refname: Refname) => {
+    return this.callback('refname', options, async (refname: Refname) => {
       return callback(refname);
     });
   }
