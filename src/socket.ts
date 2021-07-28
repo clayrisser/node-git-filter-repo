@@ -87,7 +87,7 @@ export default class Socket {
     try {
       return JSON.parse(data);
     } catch (err) {
-      return (data as unknown) as T;
+      return data as unknown as T;
     }
   }
 
