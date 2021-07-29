@@ -2,7 +2,7 @@ include silicon.mk
 
 BABEL := node_modules/.bin/babel
 BABEL_NODE := node_modules/.bin/babel-node
-CLOC := node_modules/.bin/cloc
+CLOC := cloc
 CSPELL := node_modules/.bin/cspell
 ESLINT := node_modules/.bin/eslint
 JEST := node_modules/.bin/jest

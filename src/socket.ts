@@ -18,7 +18,7 @@ import path from 'path';
 import { createServer, Socket as NetSocket, Server } from 'net';
 import { v4 as uuidv4 } from 'uuid';
 import os from 'os';
-import { HashMap } from '~/types';
+import { HashMap } from './types';
 
 const tmpPath = os.tmpdir();
 
