@@ -20,6 +20,7 @@ import Git, { GitFilterRepoOptions } from './git';
 import GitDate from './gitDate';
 import Pip from './pip';
 import Socket from './socket';
+import { Options } from './types';
 
 const gitDate = new GitDate();
 
@@ -28,7 +29,13 @@ export default class GitFilterRepo {
 
   private pip: Pip;
 
-  constructor(public gitPath = process.cwd()) {
+  private options: Options;
+
+  constructor(public gitPath = process.cwd(), options: Partial<Options>) {
+    this.options = {
+      pipe: true,
+      ...options
+    };
     this.git = new Git(gitPath);
     this.pip = new Pip(gitPath);
   }
@@ -39,7 +46,7 @@ export default class GitFilterRepo {
     if (!(await this.installed())) {
       await this.pip.install('git-filter-repo', {
         user: true,
-        pipe: true
+        pipe: this.options.pipe
       });
     }
     process.chdir(previousPath);
@@ -47,7 +54,7 @@ export default class GitFilterRepo {
 
   async installed(): Promise<boolean> {
     try {
-      await this.git.filterRepo({ help: true });
+      await this.git.filterRepo({ help: true, pipe: this.options.pipe });
       return true;
     } catch (err) {
       const execaErr: ExecaError = err;
@@ -159,7 +166,7 @@ export default class GitFilterRepo {
       force: true,
       ...options,
       [`${name}Callback`]: `return callbacks.callback('${name}', ${name})`,
-      pipe: true,
+      pipe: this.options.pipe,
       importScripts: ['callbacks']
     });
     await socket.close();
@@ -167,7 +174,11 @@ export default class GitFilterRepo {
   }
 
   async help(options: Partial<FilterRepoHelpOptions> = {}) {
-    return this.git.filterRepo({ ...options, help: true });
+    return this.git.filterRepo({
+      ...options,
+      help: true,
+      pipe: this.options.pipe
+    });
   }
 }
 

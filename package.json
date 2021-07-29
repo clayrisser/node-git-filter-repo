@@ -1,6 +1,6 @@
 {
   "name": "git-filter-repo",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "node bindings to the git-filter-repo python api",
   "keywords": [
     "git",
