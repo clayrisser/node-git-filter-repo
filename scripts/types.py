@@ -62,7 +62,7 @@ def obj_merge(obj, value):
         key,
         new_value
       )
-      return obj
+    return obj
   old_value = obj
   old_type = type(old_value)
   new_type = type(value)
