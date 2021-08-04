@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-import GitFilterRepo from './gitFilterRepo';
 import Git from './git';
+import GitDate from './gitDate';
+import GitFilterRepo from './gitFilterRepo';
 import Pip from './pip';
 import Socket from './socket';
 
-export { Git, Pip, Socket };
+export const gitDate = new GitDate();
+
+export { Git, Pip, Socket, GitDate };
 
 export * from './gitFilterRepo';
 export * from './git';
