@@ -1,6 +1,6 @@
 {
   "name": "git-filter-repo",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "node bindings to the git-filter-repo python api",
   "keywords": [
     "git",
@@ -54,7 +54,7 @@
     "@babel/runtime": "^7.14.8",
     "core-js": "^3.16.0",
     "execa": "^5.1.1",
-    "kiss-date": "^0.0.3",
+    "kiss-date": "^0.0.4",
     "regenerator-runtime": "^0.13.9",
     "uuid": "^8.3.2"
   },
