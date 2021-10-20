@@ -16,6 +16,7 @@
 
 import { DateArr } from 'kiss-date';
 import { ExecaError } from 'execa';
+import { xxhash3 } from 'hash-wasm';
 import Git, { GitFilterRepoOptions } from './git';
 import GitDate from './gitDate';
 import Pip from './pip';
@@ -34,6 +35,7 @@ export default class GitFilterRepo {
   constructor(public gitPath = process.cwd(), options: Partial<Options>) {
     this.options = {
       pipe: true,
+      preserveOrigin: false,
       ...options
     };
     this.git = new Git(gitPath);
@@ -57,7 +59,7 @@ export default class GitFilterRepo {
       await this.git.filterRepo({ help: true, pipe: this.options.pipe });
       return true;
     } catch (err) {
-      const execaErr: ExecaError = err;
+      const execaErr = err as ExecaError;
       if (execaErr.stderr?.indexOf('is not a git command') > -1) {
         return false;
       }
@@ -162,6 +164,15 @@ export default class GitFilterRepo {
       [`${name}Callback`]: callback
     });
     await socket.connect();
+    const hasOriginRemote =
+      this.options.preserveOrigin && (await this.hasRemote('origin'));
+    if (hasOriginRemote) {
+      await this.git.remote({ pipe: this.options.pipe }, [
+        'rename',
+        'origin',
+        await xxhash3('origin')
+      ]);
+    }
     const result = await this.git.filterRepo({
       force: true,
       ...options,
@@ -169,6 +180,13 @@ export default class GitFilterRepo {
       pipe: this.options.pipe,
       importScripts: ['callbacks']
     });
+    if (hasOriginRemote) {
+      await this.git.remote({ pipe: this.options.pipe }, [
+        'rename',
+        await xxhash3('origin'),
+        'origin'
+      ]);
+    }
     await socket.close();
     return result;
   }
@@ -179,6 +197,21 @@ export default class GitFilterRepo {
       help: true,
       pipe: this.options.pipe
     });
+  }
+
+  async hasRemote(remote: string): Promise<boolean> {
+    return new Set(
+      (
+        await this.git.remote(
+          {
+            pipe: this.options.pipe
+          },
+          '-v'
+        )
+      )
+        .split('\n')
+        .map((remote: string) => remote.replace(/\s+.*$/g, ''))
+    ).has(remote);
   }
 }
 

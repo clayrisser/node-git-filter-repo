@@ -98,6 +98,14 @@ export default class Git {
     return this.run(['filter-repo', ...argsArr], options);
   }
 
+  async remote(
+    options: Partial<GitRemoteOptions> = {},
+    args: string | string[] = []
+  ) {
+    const argsArr = [...(Array.isArray(args) ? args : [args])];
+    return this.run(['remote', ...argsArr], options);
+  }
+
   async run(
     args: string | string[],
     options: Partial<GitRunOptions> = {}
@@ -152,6 +160,8 @@ export interface GitRunOptions {
   dryrun?: boolean;
   pipe?: boolean;
 }
+
+export interface GitRemoteOptions extends GitRunOptions {}
 
 export interface GitFilterRepoOptions extends GitRunOptions {
   blobCallback?: string;

@@ -19,6 +19,7 @@
     "refname",
     "risser",
     "uuidv",
-    "versions"
+    "versions",
+    "xxhash3"
   ]
 }

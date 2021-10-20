@@ -20,4 +20,5 @@ export interface HashMap<T = any> {
 
 export interface Options {
   pipe: boolean;
+  preserveOrigin: boolean;
 }
