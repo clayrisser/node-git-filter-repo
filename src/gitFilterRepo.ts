@@ -168,6 +168,10 @@ export default class GitFilterRepo {
       this.options.preserveOrigin && (await this.hasRemote('origin'));
     if (hasOriginRemote) {
       await this.git.remote({ pipe: this.options.pipe }, [
+        'remove',
+        await xxhash3('origin')
+      ]);
+      await this.git.remote({ pipe: this.options.pipe }, [
         'rename',
         'origin',
         await xxhash3('origin')
