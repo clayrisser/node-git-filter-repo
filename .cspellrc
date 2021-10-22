@@ -8,6 +8,7 @@
     "pytz",
     "rebased",
     "tzname",
+    "xxhash3",
     "zfill"
   ]
 }

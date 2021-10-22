@@ -183,7 +183,7 @@ export interface GitFilterRepoOptions extends GitRunOptions {
   force?: boolean;
   help?: boolean;
   importScripts?: string[];
-  invertPaths?: string;
+  invertPaths?: boolean;
   messageCallback?: string;
   nameCallback?: string;
   paths?: string[];

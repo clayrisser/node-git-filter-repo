@@ -67,6 +67,19 @@ export default class GitFilterRepo {
     }
   }
 
+  async invertPaths(
+    paths: string[],
+    options: Partial<FilterInvertPathsOptions> = {}
+  ) {
+    return this.git.filterRepo({
+      force: true,
+      ...options,
+      pipe: this.options.pipe,
+      paths,
+      invertPaths: true
+    });
+  }
+
   async blobCallback(
     callback: (blob: Blob) => Blob | Promise<Blob>,
     options: Partial<FilterBlobCallbackOptions> = {}
@@ -250,6 +263,9 @@ export interface FilterEmailCallbackOptions
 
 export interface FilterRefnameCallbackOptions
   extends Omit<GitFilterRepoOptions, 'refnameCallback' | 'pipe'> {}
+
+export interface FilterInvertPathsOptions
+  extends Omit<GitFilterRepoOptions, 'paths' | 'invertPaths' | 'pipe'> {}
 
 export enum Operator {
   Equal = '=',
