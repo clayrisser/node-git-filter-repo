@@ -27,13 +27,17 @@ export default class Git {
     const {
       blobCallback,
       commitCallback,
+      debug,
+      dryRun,
       emailCallback,
       filenameCallback,
       force,
       help,
       importScripts,
+      invertPaths,
       messageCallback,
       nameCallback,
+      paths,
       refnameCallback,
       refs,
       resetCallback,
@@ -46,6 +50,12 @@ export default class Git {
     delete options.help;
     const argsArr = [
       ...(Array.isArray(args) ? args : [args]),
+      ...(dryRun ? ['--dry-run'] : []),
+      ...(debug ? ['--debug'] : []),
+      ...(invertPaths ? ['--invert-paths'] : []),
+      ...(paths?.length
+        ? paths.map((path: string) => ['--path', path]).flat()
+        : []),
       ...(blobCallback
         ? ['--blob-callback', this.renderCallback(blobCallback, importScripts)]
         : []),
@@ -166,13 +176,17 @@ export interface GitRemoteOptions extends GitRunOptions {}
 export interface GitFilterRepoOptions extends GitRunOptions {
   blobCallback?: string;
   commitCallback?: string;
+  debug?: boolean;
+  dryRun?: boolean;
   emailCallback?: string;
   filenameCallback?: string;
   force?: boolean;
   help?: boolean;
   importScripts?: string[];
+  invertPaths?: string;
   messageCallback?: string;
   nameCallback?: string;
+  paths?: string[];
   refnameCallback?: string;
   refs?: string | string[];
   resetCallback?: string;
