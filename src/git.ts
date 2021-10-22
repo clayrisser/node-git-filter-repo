@@ -38,6 +38,8 @@ export default class Git {
       messageCallback,
       nameCallback,
       paths,
+      pathsGlob,
+      pathsRegex,
       refnameCallback,
       refs,
       resetCallback,
@@ -53,9 +55,11 @@ export default class Git {
       ...(dryRun ? ['--dry-run'] : []),
       ...(debug ? ['--debug'] : []),
       ...(invertPaths ? ['--invert-paths'] : []),
-      ...(paths?.length
-        ? paths.map((path: string) => ['--path', path]).flat()
-        : []),
+      ...(paths || []).map((path: string) => ['--path', path]).flat(),
+      ...(pathsRegex || [])
+        .map((path: string) => ['--path-regex', path])
+        .flat(),
+      ...(pathsGlob || []).map((path: string) => ['--path-glob', path]).flat(),
       ...(blobCallback
         ? ['--blob-callback', this.renderCallback(blobCallback, importScripts)]
         : []),
@@ -187,6 +191,8 @@ export interface GitFilterRepoOptions extends GitRunOptions {
   messageCallback?: string;
   nameCallback?: string;
   paths?: string[];
+  pathsGlob?: string[];
+  pathsRegex?: string[];
   refnameCallback?: string;
   refs?: string | string[];
   resetCallback?: string;

@@ -68,15 +68,31 @@ export default class GitFilterRepo {
   }
 
   async invertPaths(
-    paths: string[],
+    paths: (string | Path)[],
     options: Partial<FilterInvertPathsOptions> = {}
   ) {
+    const filteredPaths: string[] = [];
+    const pathsGlob: string[] = [];
+    const pathsRegex: string[] = [];
+    paths.forEach((path: string | Path) => {
+      if (!path) return;
+      const { type, value } = path as Path;
+      if (type === PathType.Glob) {
+        pathsGlob.push(value);
+      } else if (type === PathType.Regex) {
+        pathsRegex.push(value);
+      } else if (typeof path === 'string' || value) {
+        paths.push(typeof path === 'string' ? path : value);
+      }
+    });
     return this.git.filterRepo({
       force: true,
       ...options,
-      pipe: this.options.pipe,
-      paths,
-      invertPaths: true
+      invertPaths: true,
+      paths: filteredPaths,
+      pathsGlob,
+      pathsRegex,
+      pipe: this.options.pipe
     });
   }
 
@@ -265,7 +281,10 @@ export interface FilterRefnameCallbackOptions
   extends Omit<GitFilterRepoOptions, 'refnameCallback' | 'pipe'> {}
 
 export interface FilterInvertPathsOptions
-  extends Omit<GitFilterRepoOptions, 'paths' | 'invertPaths' | 'pipe'> {}
+  extends Omit<
+    GitFilterRepoOptions,
+    'paths' | 'pathsRegex' | 'pathsGlob' | 'invertPaths' | 'pipe'
+  > {}
 
 export enum Operator {
   Equal = '=',
@@ -358,4 +377,14 @@ export function commitToPythonCommit(commit: Commit): PythonCommit {
     original_id: commit.originalId,
     type: commit.type
   };
+}
+
+export interface Path {
+  type?: PathType;
+  value: string;
+}
+
+export enum PathType {
+  Glob = 'glob',
+  Regex = 'regex'
 }
