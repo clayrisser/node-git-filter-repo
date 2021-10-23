@@ -97,7 +97,7 @@ export default class Git {
             this.renderCallback(refnameCallback, importScripts)
           ]
         : []),
-      ...(refs ? [refs].flat().join(' ') : ''),
+      ...(refs ? ['--refs', ...refs] : []),
       ...(resetCallback
         ? [
             '--reset-callback',
