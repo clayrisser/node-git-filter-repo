@@ -37,6 +37,7 @@ export default class Git {
       invertPaths,
       messageCallback,
       nameCallback,
+      partial,
       paths,
       pathsGlob,
       pathsRegex,
@@ -52,9 +53,10 @@ export default class Git {
     delete options.help;
     const argsArr = [
       ...(Array.isArray(args) ? args : [args]),
-      ...(dryRun ? ['--dry-run'] : []),
       ...(debug ? ['--debug'] : []),
+      ...(dryRun ? ['--dry-run'] : []),
       ...(invertPaths ? ['--invert-paths'] : []),
+      ...(partial ? ['--partial'] : []),
       ...(paths || []).map((path: string) => ['--path', path]).flat(),
       ...(pathsRegex || [])
         .map((path: string) => ['--path-regex', path])
@@ -190,6 +192,7 @@ export interface GitFilterRepoOptions extends GitRunOptions {
   invertPaths?: boolean;
   messageCallback?: string;
   nameCallback?: string;
+  partial?: boolean;
   paths?: string[];
   pathsGlob?: string[];
   pathsRegex?: string[];
