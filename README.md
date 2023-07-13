@@ -4,6 +4,8 @@
 
 > node bindings to the git-filter-repo python api
 
+![](assets/node-git-filter-repo.png)
+
 Please ★ this repo if you found it useful ★ ★ ★
 
 You can learn more about git-filter-repo at [pypi.org/project/git-node-git-filter-repo](https://pypi.org/project/git-node-git-filter-repo).
